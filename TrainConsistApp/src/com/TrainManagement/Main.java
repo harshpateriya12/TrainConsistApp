@@ -1,15 +1,15 @@
 package com.TrainManagement;
 
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
 
-public class Main {
+public class Main{
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        LinkedList<String> train = new LinkedList<>();
+        LinkedHashSet<String> bogies = new LinkedHashSet<>();
 
         System.out.println("Enter number of bogies:");
         int n = sc.nextInt();
@@ -17,28 +17,12 @@ public class Main {
 
         for(int i=0;i<n;i++)
         {
-            System.out.println("Enter Bogie:");
-            train.add(sc.nextLine());
+            System.out.println("Enter Bogie Name:");
+            bogies.add(sc.nextLine());
         }
 
-        System.out.println("Current Train Consist:");
-        System.out.println(train);
+        System.out.println("\nBogies in insertion order:");
+        System.out.println(bogies);
 
-        System.out.println("Enter bogie to insert:");
-        String bogie = sc.nextLine();
-
-        System.out.println("Enter position to insert:");
-        int pos = sc.nextInt();
-
-        train.add(pos, bogie);
-
-        System.out.println("After insertion:");
-        System.out.println(train);
-
-        train.removeFirst();
-        train.removeLast();
-
-        System.out.println("After removing first and last bogie:");
-        System.out.println(train);
     }
 }
