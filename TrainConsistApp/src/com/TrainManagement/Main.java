@@ -1,50 +1,44 @@
 package com.TrainManagement;
 
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Main {
 
-public static void main(String[] args) {
+    public static void main(String[] args) {
 
-Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
+        LinkedList<String> train = new LinkedList<>();
 
-System.out.println("***UC3 - Track Unique Bogie IDs***");
+        System.out.println("Enter number of bogies:");
+        int n = sc.nextInt();
+        sc.nextLine();
 
+        for(int i=0;i<n;i++)
+        {
+            System.out.println("Enter Bogie:");
+            train.add(sc.nextLine());
+        }
 
-// Create Set to store unique bogie IDs
-Set<String> bogieIDs = new HashSet<>();
+        System.out.println("Current Train Consist:");
+        System.out.println(train);
 
-// Take number of bogie IDs
-System.out.print("\nEnter number of bogie IDs to add: ");
-int n = sc.nextInt();
-sc.nextLine();
+        System.out.println("Enter bogie to insert:");
+        String bogie = sc.nextLine();
 
-// Add bogie IDs (duplicates allowed in input but ignored in HashSet)
-for (int i = 0; i < n; i++) {
+        System.out.println("Enter position to insert:");
+        int pos = sc.nextInt();
 
-System.out.print("Enter Bogie ID: ");
-String id = sc.nextLine();
+        train.add(pos, bogie);
 
-bogieIDs.add(id);
-}
+        System.out.println("After insertion:");
+        System.out.println(train);
 
-// Intentionally adding duplicates to demonstrate HashSet behavior
-System.out.println("\nAdding duplicate IDs (BG101, BG102) intentionally...");
-bogieIDs.add("BG101");
-bogieIDs.add("BG102");
+        train.removeFirst();
+        train.removeLast();
 
-// Display final unique IDs
-System.out.println("\nBogie IDs After Insertion:");
-System.out.println(bogieIDs);
-
-System.out.println("\nNote:");
-System.out.println("Duplicates are automatically ignored by HashSet.");
-
-System.out.println("\nUC3 uniqueness validation completed...");
-
-
-}
+        System.out.println("After removing first and last bogie:");
+        System.out.println(train);
+    }
 }
