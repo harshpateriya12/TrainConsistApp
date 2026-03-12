@@ -28,6 +28,7 @@ public class Main {
             System.out.println("9. Group Bogies by Type (UC9)");
             System.out.println("10. Count Total Seats (UC10)");
             System.out.println("11. Validate Train ID & Cargo Codes (UC11)");
+            System.out.println("12. Safety Compliance Check for Goods Bogies (UC12)");
             System.out.println("0. Exit");
 
             System.out.println("Enter your choice:");
@@ -77,6 +78,10 @@ public class Main {
                     
                 case 11:
                     service.validateTrainAndCargoCodes();
+                    break;
+                    
+                case 12:
+                    service.safetyComplianceCheck();
                     break;
 
                 case 0:

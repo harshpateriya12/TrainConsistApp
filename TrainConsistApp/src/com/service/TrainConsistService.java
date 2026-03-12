@@ -1,6 +1,7 @@
 package com.service;
 
 import com.model.Bogie;
+import com.model.GoodsBogie;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -210,6 +211,45 @@ public class TrainConsistService {
                 System.out.println("Cargo Code is VALID");
             else
                 System.out.println("Cargo Code is INVALID");
+        }
+        
+        
+     // UC12 for safety checks
+        public void safetyComplianceCheck() {
+
+            System.out.println("\n=== Safety Compliance Check for Goods Bogies ===");
+
+            List<GoodsBogie> goodsBogies = new ArrayList<>();
+
+            System.out.println("Enter number of goods bogies:");
+            int n = sc.nextInt();
+            sc.nextLine();
+
+            for(int i=0;i<n;i++) {
+
+                System.out.println("Enter Bogie Type (Cylindrical / Box / Flat):");
+                String type = sc.nextLine();
+
+                System.out.println("Enter Cargo Type:");
+                String cargo = sc.nextLine();
+
+                goodsBogies.add(new GoodsBogie(type, cargo));
+            }
+
+            System.out.println("\nGoods Bogies Entered:");
+            goodsBogies.forEach(System.out::println);
+
+            boolean isSafe =
+                    goodsBogies.stream()
+                            .allMatch(b ->
+                                    !b.getBogieType().equalsIgnoreCase("Cylindrical")
+                                            || b.getCargo().equalsIgnoreCase("Petroleum")
+                            );
+
+            if(isSafe)
+                System.out.println("\nTrain is SAFETY COMPLIANT");
+            else
+                System.out.println("\nSafety violation detected! Train is NOT compliant.");
         }
     
 }
