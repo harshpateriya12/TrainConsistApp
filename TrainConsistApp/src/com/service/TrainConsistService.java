@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.model.Bogie;
 import com.model.GoodsBogie;
 import com.exception.InvalidCapacityException;
+import com.exception.CargoSafetyException;
 
 public class TrainConsistService {
 
@@ -306,6 +307,39 @@ public class TrainConsistService {
         catch(InvalidCapacityException e) {
 
             System.out.println("Invalid Bogie: " + e.getMessage());
+        }
+    }
+    
+ // UC15 – Safe Cargo Assignment Using try-catch-finally
+    public void safeCargoAssignment() {
+
+        try {
+
+            System.out.println("Enter Bogie Shape (Cylindrical / Rectangular):");
+            String shape = sc.nextLine();
+
+            System.out.println("Enter Cargo Type:");
+            String cargo = sc.nextLine();
+
+            // Safety rule
+            if(shape.equalsIgnoreCase("Rectangular") &&
+               cargo.equalsIgnoreCase("Petroleum")) {
+
+                throw new CargoSafetyException(
+                    "Unsafe Cargo Assignment! Petroleum cannot be assigned to Rectangular bogie."
+                );
+            }
+
+            System.out.println("Cargo assigned successfully.");
+
+        }
+        catch(CargoSafetyException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
+        finally {
+
+            System.out.println("Cargo assignment process completed.");
         }
     }
 
