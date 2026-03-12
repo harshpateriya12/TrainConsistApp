@@ -1,61 +1,82 @@
 package com.TrainManagement;
 
-import com.model.Bogie;
+import com.service.TrainConsistService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        TrainConsistService service = new TrainConsistService();
         Scanner sc = new Scanner(System.in);
 
-        List<Bogie> bogieList = new ArrayList<>();
+        int choice;
 
-        System.out.println("***Filter Bogies Using Streams***");
+        do {
 
-        System.out.println("Enter number of bogies:");
-        int n = sc.nextInt();
-        sc.nextLine();
+            System.out.println("\n***Train Consist Management Menu***");
 
-        for(int i = 0; i < n; i++) {
+            System.out.println("1. Initialize Train (UC1)");
+            System.out.println("2. Add Passenger Bogies (UC2)");
+            System.out.println("3. Unique Bogie IDs (UC3)");
+            System.out.println("4. Ordered Train Consist (UC4)");
+            System.out.println("5. Preserve Insertion Order (UC5)");
+            System.out.println("6. Map Bogie Capacity (UC6)");
+            System.out.println("7. Sort Bogies by Capacity (UC7)");
+            System.out.println("8. Filter Bogies using Streams (UC8)");
+            System.out.println("9. Group Bogies by Type (UC9)");
+            System.out.println("0. Exit");
 
-            System.out.println("Enter Bogie Name:");
-            String name = sc.nextLine();
+            System.out.println("Enter your choice:");
+            choice = sc.nextInt();
 
-            System.out.println("Enter Capacity:");
-            int capacity = sc.nextInt();
-            sc.nextLine();
+            switch(choice)
+            {
+                case 1:
+                    service.initializeTrain();
+                    break;
 
-            bogieList.add(new Bogie(name, capacity));
-        }
+                case 2:
+                    service.addPassengerBogies();
+                    break;
 
-        System.out.println("\nAll Bogies:");
-        bogieList.forEach(System.out::println);
+                case 3:
+                    service.uniqueBogieIDs();
+                    break;
 
-        System.out.println("\nEnter minimum capacity to filter bogies:");
-        int minCapacity = sc.nextInt();
+                case 4:
+                    service.orderedTrainConsist();
+                    break;
 
-        // Stream Filtering
-        List<Bogie> filteredBogies =
-                bogieList.stream()
-                        .filter(b -> b.getCapacity() > minCapacity)
-                        .collect(Collectors.toList());
+                case 5:
+                    service.insertionOrderBogies();
+                    break;
 
-        System.out.println("\nFiltered Bogies (Capacity > " + minCapacity + "):");
+                case 6:
+                    service.mapBogieCapacity();
+                    break;
 
-        if(filteredBogies.isEmpty())
-        {
-            System.out.println("No bogies match the condition.");
-        }
-        else
-        {
-            filteredBogies.forEach(System.out::println);
-        }
+                case 7:
+                    service.sortBogiesByCapacity();
+                    break;
 
-       
+                case 8:
+                    service.filterBogies();
+                    break;
+
+                case 9:
+                    service.groupBogiesByType();
+                    break;
+
+                case 0:
+                    System.out.println("Choose a Valid option");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice");
+            }
+
+        } while(choice != 0);
     }
 }
