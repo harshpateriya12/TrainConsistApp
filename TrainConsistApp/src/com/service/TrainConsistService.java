@@ -449,5 +449,55 @@ public class TrainConsistService {
             System.out.println("Bogie ID not found.");
         }
     }
+    
+ // UC19 – Binary Search for Bogie ID
+    public void binarySearchBogieID() {
+
+        System.out.println("\n***Binary Search for Bogie ID***");
+
+        System.out.println("Enter number of bogie IDs:");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String[] bogieIDs = new String[n];
+
+        // Input bogie IDs
+        System.out.println("Enter sorted bogie IDs:");
+
+        for(int i = 0; i < n; i++) {
+            bogieIDs[i] = sc.nextLine();
+        }
+
+        // Search key
+        System.out.println("Enter Bogie ID to search:");
+        String key = sc.nextLine();
+
+        int low = 0;
+        int high = n - 1;
+        boolean found = false;
+
+        while(low <= high) {
+
+            int mid = (low + high) / 2;
+
+            int result = key.compareTo(bogieIDs[mid]);
+
+            if(result == 0) {
+                System.out.println("Bogie ID found at position: " + mid);
+                found = true;
+                break;
+            }
+            else if(result > 0) {
+                low = mid + 1;
+            }
+            else {
+                high = mid - 1;
+            }
+        }
+
+        if(!found) {
+            System.out.println("Bogie ID not found.");
+        }
+    }
 
 }
