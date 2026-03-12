@@ -1,115 +1,235 @@
 package com.service;
 
+import java.util.*;
+import java.util.regex.*;
+import java.util.stream.Collectors;
+
 import com.model.Bogie;
 import com.model.GoodsBogie;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import com.exception.InvalidCapacityException;
 
 public class TrainConsistService {
 
     Scanner sc = new Scanner(System.in);
 
-    List<String> bogieNames = new ArrayList<>();
-    Set<String> uniqueIDs = new HashSet<>();
-    LinkedList<String> trainOrder = new LinkedList<>();
-    LinkedHashSet<String> orderedBogies = new LinkedHashSet<>();
-    HashMap<String, Integer> bogieCapacityMap = new HashMap<>();
-    List<Bogie> bogieObjects = new ArrayList<>();
+    List<Bogie> bogies = new ArrayList<>();
+    Set<String> bogieIds = new HashSet<>();
+    LinkedList<Bogie> trainOrder = new LinkedList<>();
+    LinkedHashSet<Bogie> orderedBogies = new LinkedHashSet<>();
+    Map<String,Integer> bogieCapacityMap = new HashMap<>();
 
 
-    // UC1 to initialize
+    // UC1 – Initialize Train
     public void initializeTrain() {
 
-        List<String> trainConsist = new ArrayList<>();
-
-        System.out.println("Train initialized.");
-        System.out.println("Initial Bogie Count: " + trainConsist.size());
+        bogies.clear();
+        System.out.println("Train initialized successfully.");
     }
 
-    // UC2 to add passenger Bogies
+
+    // UC2 – Add Passenger Bogies
     public void addPassengerBogies() {
 
-        System.out.println("Enter number of bogies:");
-        int n = sc.nextInt();
-        sc.nextLine();
-
-        for(int i=0;i<n;i++) {
-            System.out.println("Enter Bogie Name:");
-            bogieNames.add(sc.nextLine());
-        }
-
-        System.out.println("Bogies: " + bogieNames);
-    }
-
-    // UC3 for giving unique Bogie IDs
-    public void uniqueBogieIDs() {
-
-        System.out.println("Enter number of Bogie IDs:");
-        int n = sc.nextInt();
-        sc.nextLine();
-
-        for(int i=0;i<n;i++) {
-            uniqueIDs.add(sc.nextLine());
-        }
-
-        System.out.println("Unique IDs: " + uniqueIDs);
-    }
-
-    // UC4 for ordered bogies
-    public void orderedTrainConsist() {
-
-        System.out.println("Enter number of bogies:");
-        int n = sc.nextInt();
-        sc.nextLine();
-
-        for(int i=0;i<n;i++) {
-            trainOrder.add(sc.nextLine());
-        }
-
-        System.out.println("Train Order: " + trainOrder);
-    }
-
-    // UC5 for maintaining insertion order
-    public void insertionOrderBogies() {
-
-        System.out.println("Enter number of bogies:");
-        int n = sc.nextInt();
-        sc.nextLine();
-
-        for(int i=0;i<n;i++) {
-            orderedBogies.add(sc.nextLine());
-        }
-
-        System.out.println("Bogies in insertion order: " + orderedBogies);
-    }
-
-    // UC6 for mapping bogies with capacity
-    public void mapBogieCapacity() {
-
-        System.out.println("Enter number of bogies:");
-        int n = sc.nextInt();
-        sc.nextLine();
-
-        for(int i=0;i<n;i++) {
+        try {
 
             System.out.println("Enter Bogie Name:");
             String name = sc.nextLine();
 
+            System.out.println("Enter Bogie Type:");
+            String type = sc.nextLine();
+
             System.out.println("Enter Capacity:");
-            int cap = sc.nextInt();
+            int capacity = sc.nextInt();
             sc.nextLine();
 
-            bogieCapacityMap.put(name,cap);
-        }
+            Bogie bogie = new Bogie(name,type,capacity);
 
-        System.out.println("Bogie Capacity Map: " + bogieCapacityMap);
+            bogies.add(bogie);
+
+            System.out.println("Bogie added successfully.");
+
+        } catch (InvalidCapacityException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    // UC7 for sorting based on capacity
+
+    // UC3 – Unique Bogie IDs
+    public void uniqueBogieIDs() {
+
+        System.out.println("Enter Bogie ID:");
+        String id = sc.nextLine();
+
+        if(bogieIds.add(id))
+            System.out.println("Bogie ID added.");
+        else
+            System.out.println("Duplicate Bogie ID not allowed.");
+    }
+
+
+    // UC4 – Ordered Train Consist
+    public void orderedTrainConsist() {
+
+        if(bogies.isEmpty()) {
+            System.out.println("No bogies available.");
+            return;
+        }
+
+        trainOrder.addAll(bogies);
+
+        System.out.println("Train consist order:");
+
+        for(Bogie b : trainOrder)
+            System.out.println(b);
+    }
+
+
+    // UC5 – Preserve Insertion Order
+    public void insertionOrderBogies() {
+
+        orderedBogies.addAll(bogies);
+
+        System.out.println("Bogies in insertion order:");
+
+        for(Bogie b : orderedBogies)
+            System.out.println(b);
+    }
+
+
+    // UC6 – Map Bogie Capacity
+    public void mapBogieCapacity() {
+
+        bogieCapacityMap.clear();
+
+        for(Bogie b : bogies)
+            bogieCapacityMap.put(b.getName(), b.getCapacity());
+
+        System.out.println("Bogie Capacity Map:");
+
+        for(String key : bogieCapacityMap.keySet())
+            System.out.println(key + " -> " + bogieCapacityMap.get(key));
+    }
+
+
+    // UC7 – Sort Bogies by Capacity
     public void sortBogiesByCapacity() {
+
+        bogies.sort(Comparator.comparingInt(Bogie::getCapacity));
+
+        System.out.println("Bogies sorted by capacity:");
+
+        bogies.forEach(System.out::println);
+    }
+
+
+    // UC8 – Filter Passenger Bogies using Streams
+    public void filterBogies() {
+
+        List<Bogie> filtered = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+
+        System.out.println("Filtered Bogies (capacity > 60):");
+
+        filtered.forEach(System.out::println);
+    }
+
+
+    // UC9 – Group Bogies by Type
+    public void groupBogiesByType() {
+
+        Map<String,List<Bogie>> grouped =
+                bogies.stream()
+                        .collect(Collectors.groupingBy(Bogie::getType));
+
+        System.out.println("Grouped Bogies:");
+
+        grouped.forEach((type,list)->{
+
+            System.out.println(type + ":");
+
+            list.forEach(System.out::println);
+        });
+    }
+
+
+    // UC10 – Count Total Seats using reduce
+    public void countTotalSeats() {
+
+        int totalSeats = bogies.stream()
+                .map(Bogie::getCapacity)
+                .reduce(0, Integer::sum);
+
+        System.out.println("Total Train Seating Capacity: " + totalSeats);
+    }
+
+
+    // UC11 – Regex Validation
+    public void validateTrainAndCargoCodes() {
+
+        System.out.println("Enter Train ID:");
+        String trainId = sc.nextLine();
+
+        System.out.println("Enter Cargo Code:");
+        String cargoCode = sc.nextLine();
+
+        Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
+        Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
+
+        Matcher trainMatcher = trainPattern.matcher(trainId);
+        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+
+        if(trainMatcher.matches())
+            System.out.println("Valid Train ID");
+        else
+            System.out.println("Invalid Train ID");
+
+        if(cargoMatcher.matches())
+            System.out.println("Valid Cargo Code");
+        else
+            System.out.println("Invalid Cargo Code");
+    }
+
+
+    // UC12 – Safety Compliance Check
+    public void safetyComplianceCheck() {
+
+        List<GoodsBogie> goodsBogies = new ArrayList<>();
+
+        System.out.println("Enter number of goods bogies:");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        for(int i=0;i<n;i++) {
+
+            System.out.println("Enter Bogie Type:");
+            String type = sc.nextLine();
+
+            System.out.println("Enter Cargo:");
+            String cargo = sc.nextLine();
+
+            goodsBogies.add(new GoodsBogie(type,cargo));
+        }
+
+        boolean isSafe =
+                goodsBogies.stream()
+                        .allMatch(b ->
+                                !b.getBogieType().equalsIgnoreCase("Cylindrical")
+                                        || b.getCargo().equalsIgnoreCase("Petroleum")
+                        );
+
+        if(isSafe)
+            System.out.println("Train is SAFETY COMPLIANT");
+        else
+            System.out.println("Safety violation detected!");
+    }
+
+
+    // UC13 – Performance Comparison
+    public void performanceComparison() {
+
+        List<Bogie> testBogies = new ArrayList<>();
 
         System.out.println("Enter number of bogies:");
         int n = sc.nextInt();
@@ -124,199 +244,69 @@ public class TrainConsistService {
             String type = sc.nextLine();
 
             System.out.println("Enter Capacity:");
-            int cap = sc.nextInt();
+            int capacity = sc.nextInt();
             sc.nextLine();
 
-            bogieObjects.add(new Bogie(name,type,cap));
+            try {
+                testBogies.add(new Bogie(name,type,capacity));
+            } catch (InvalidCapacityException e) {
+                System.out.println(e.getMessage());
+            }
         }
-
-        bogieObjects.sort(Comparator.comparingInt(Bogie::getCapacity));
-
-        bogieObjects.forEach(System.out::println);
-    }
-
-    // UC8 for filtering based on capacity
-    public void filterBogies() {
 
         System.out.println("Enter minimum capacity:");
-        int min = sc.nextInt();
+        int minCap = sc.nextInt();
 
-        List<Bogie> filtered =
-                bogieObjects.stream()
-                        .filter(b -> b.getCapacity() > min)
-                        .collect(Collectors.toList());
+        long loopStart = System.nanoTime();
 
-        filtered.forEach(System.out::println);
+        List<Bogie> loopResult = new ArrayList<>();
+
+        for(Bogie b : testBogies)
+            if(b.getCapacity() > minCap)
+                loopResult.add(b);
+
+        long loopEnd = System.nanoTime();
+
+        long streamStart = System.nanoTime();
+
+        List<Bogie> streamResult =
+                testBogies.stream()
+                        .filter(b -> b.getCapacity() > minCap)
+                        .toList();
+
+        long streamEnd = System.nanoTime();
+
+        System.out.println("Loop Time: " + (loopEnd-loopStart));
+        System.out.println("Stream Time: " + (streamEnd-streamStart));
     }
 
-    // UC9 for grouping bogies by types
-    public void groupBogiesByType() {
 
-        Map<String,List<Bogie>> grouped =
-                bogieObjects.stream()
-                        .collect(Collectors.groupingBy(Bogie::getType));
+    // UC14 – Custom Exception Handling Demo
+    public void createBogieWithValidation() {
 
-        grouped.forEach((type,bogies) -> {
+        try {
 
-            System.out.println("\nType: "+type);
+            System.out.println("Enter Bogie Name:");
+            String name = sc.nextLine();
 
-            bogies.forEach(System.out::println);
-        });
-        
+            System.out.println("Enter Type:");
+            String type = sc.nextLine();
+
+            System.out.println("Enter Capacity:");
+            int capacity = sc.nextInt();
+            sc.nextLine();
+
+            Bogie b = new Bogie(name,type,capacity);
+
+            bogies.add(b);
+
+            System.out.println("Bogie created successfully.");
+
+        }
+        catch(InvalidCapacityException e) {
+
+            System.out.println("Invalid Bogie: " + e.getMessage());
+        }
     }
-     
-     // UC10 for counting total seats
-        public void countTotalSeats() {
 
-            if(bogieObjects.isEmpty()) {
-                System.out.println("No bogies available. Please add bogies first (UC7).");
-                return;
-            }
-
-            int totalSeats =
-                    bogieObjects.stream()
-                            .map(b -> b.getCapacity())
-                            .reduce(0, Integer::sum);
-
-            System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
-        }
-        
-     // UC11 for validatiing Train And Cargo codes
-        public void validateTrainAndCargoCodes() {
-
-            System.out.println("\n=== Train ID & Cargo Code Validation ===");
-
-            System.out.println("Enter Train ID:");
-            String trainId = sc.next();
-
-            System.out.println("Enter Cargo Code:");
-            String cargoCode = sc.next();
-
-            // Regex patterns
-            String trainRegex = "TRN-\\d{4}";
-            String cargoRegex = "PET-[A-Z]{2}";
-
-            Pattern trainPattern = Pattern.compile(trainRegex);
-            Pattern cargoPattern = Pattern.compile(cargoRegex);
-
-            Matcher trainMatcher = trainPattern.matcher(trainId);
-            Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
-
-            if(trainMatcher.matches())
-                System.out.println("Train ID is VALID");
-            else
-                System.out.println("Train ID is INVALID");
-
-            if(cargoMatcher.matches())
-                System.out.println("Cargo Code is VALID");
-            else
-                System.out.println("Cargo Code is INVALID");
-        }
-        
-        
-     // UC12 for safety checks
-        public void safetyComplianceCheck() {
-
-            System.out.println("\n=== Safety Compliance Check for Goods Bogies ===");
-
-            List<GoodsBogie> goodsBogies = new ArrayList<>();
-
-            System.out.println("Enter number of goods bogies:");
-            int n = sc.nextInt();
-            sc.nextLine();
-
-            for(int i=0;i<n;i++) {
-
-                System.out.println("Enter Bogie Type (Cylindrical / Box / Flat):");
-                String type = sc.nextLine();
-
-                System.out.println("Enter Cargo Type:");
-                String cargo = sc.nextLine();
-
-                goodsBogies.add(new GoodsBogie(type, cargo));
-            }
-
-            System.out.println("\nGoods Bogies Entered:");
-            goodsBogies.forEach(System.out::println);
-
-            boolean isSafe =
-                    goodsBogies.stream()
-                            .allMatch(b ->
-                                    !b.getBogieType().equalsIgnoreCase("Cylindrical")
-                                            || b.getCargo().equalsIgnoreCase("Petroleum")
-                            );
-
-            if(isSafe)
-                System.out.println("\nTrain is SAFETY COMPLIANT");
-            else
-                System.out.println("\nSafety violation detected! Train is NOT compliant.");
-        }
-        
-     // UC13 for comparing performances of loop and stream
-        public void performanceComparison() {
-
-            System.out.println("\n***Performance Comparison: Loop vs Stream***");
-
-            List<Bogie> testBogies = new ArrayList<>();
-
-            System.out.println("Enter number of bogies for performance test:");
-            int n = sc.nextInt();
-            sc.nextLine();
-
-            for(int i = 0; i < n; i++) {
-
-                System.out.println("Enter Bogie Name:");
-                String name = sc.nextLine();
-
-                System.out.println("Enter Type:");
-                String type = sc.nextLine();
-
-                System.out.println("Enter Capacity:");
-                int capacity = sc.nextInt();
-                sc.nextLine();
-
-                testBogies.add(new Bogie(name, type, capacity));
-            }
-
-            System.out.println("\nEnter minimum capacity for filtering:");
-            int minCapacity = sc.nextInt();
-
-            //Filtering based on loops
-
-            long loopStart = System.nanoTime();
-
-            List<Bogie> loopResult = new ArrayList<>();
-
-            for(Bogie b : testBogies) {
-                if(b.getCapacity() > minCapacity) {
-                    loopResult.add(b);
-                }
-            }
-
-            long loopEnd = System.nanoTime();
-
-            long loopTime = loopEnd - loopStart;
-
-            //Filtering based on streams
-
-            long streamStart = System.nanoTime();
-
-            List<Bogie> streamResult =
-                    testBogies.stream()
-                            .filter(b -> b.getCapacity() > minCapacity)
-                            .toList();
-
-            long streamEnd = System.nanoTime();
-
-            long streamTime = streamEnd - streamStart;
-
-            //Results 
-
-            System.out.println("\nLoop Result Size: " + loopResult.size());
-            System.out.println("Stream Result Size: " + streamResult.size());
-
-            System.out.println("\nLoop Execution Time (nanoseconds): " + loopTime);
-            System.out.println("Stream Execution Time (nanoseconds): " + streamTime);
-        }
-    
 }
