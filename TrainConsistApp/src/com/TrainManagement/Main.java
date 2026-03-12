@@ -29,6 +29,7 @@ public class Main {
             System.out.println("10. Count Total Seats (UC10)");
             System.out.println("11. Validate Train ID & Cargo Codes (UC11)");
             System.out.println("12. Safety Compliance Check for Goods Bogies (UC12)");
+            System.out.println("13. Performance Comparison (Loops vs Streams)");
             System.out.println("0. Exit");
 
             System.out.println("Enter your choice:");
@@ -82,6 +83,10 @@ public class Main {
                     
                 case 12:
                     service.safetyComplianceCheck();
+                    break;
+                    
+                case 13:
+                    service.performanceComparison();
                     break;
 
                 case 0:

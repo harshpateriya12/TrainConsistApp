@@ -251,5 +251,72 @@ public class TrainConsistService {
             else
                 System.out.println("\nSafety violation detected! Train is NOT compliant.");
         }
+        
+     // UC13 for comparing performances of loop and stream
+        public void performanceComparison() {
+
+            System.out.println("\n***Performance Comparison: Loop vs Stream***");
+
+            List<Bogie> testBogies = new ArrayList<>();
+
+            System.out.println("Enter number of bogies for performance test:");
+            int n = sc.nextInt();
+            sc.nextLine();
+
+            for(int i = 0; i < n; i++) {
+
+                System.out.println("Enter Bogie Name:");
+                String name = sc.nextLine();
+
+                System.out.println("Enter Type:");
+                String type = sc.nextLine();
+
+                System.out.println("Enter Capacity:");
+                int capacity = sc.nextInt();
+                sc.nextLine();
+
+                testBogies.add(new Bogie(name, type, capacity));
+            }
+
+            System.out.println("\nEnter minimum capacity for filtering:");
+            int minCapacity = sc.nextInt();
+
+            //Filtering based on loops
+
+            long loopStart = System.nanoTime();
+
+            List<Bogie> loopResult = new ArrayList<>();
+
+            for(Bogie b : testBogies) {
+                if(b.getCapacity() > minCapacity) {
+                    loopResult.add(b);
+                }
+            }
+
+            long loopEnd = System.nanoTime();
+
+            long loopTime = loopEnd - loopStart;
+
+            //Filtering based on streams
+
+            long streamStart = System.nanoTime();
+
+            List<Bogie> streamResult =
+                    testBogies.stream()
+                            .filter(b -> b.getCapacity() > minCapacity)
+                            .toList();
+
+            long streamEnd = System.nanoTime();
+
+            long streamTime = streamEnd - streamStart;
+
+            //Results 
+
+            System.out.println("\nLoop Result Size: " + loopResult.size());
+            System.out.println("Stream Result Size: " + streamResult.size());
+
+            System.out.println("\nLoop Execution Time (nanoseconds): " + loopTime);
+            System.out.println("Stream Execution Time (nanoseconds): " + streamTime);
+        }
     
 }
