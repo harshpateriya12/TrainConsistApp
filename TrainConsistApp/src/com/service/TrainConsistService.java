@@ -4,6 +4,8 @@ import com.model.Bogie;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class TrainConsistService {
 
@@ -146,7 +148,7 @@ public class TrainConsistService {
         filtered.forEach(System.out::println);
     }
 
-    // UC9
+    // UC9 for grouping bogies by types
     public void groupBogiesByType() {
 
         Map<String,List<Bogie>> grouped =
@@ -176,6 +178,38 @@ public class TrainConsistService {
                             .reduce(0, Integer::sum);
 
             System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
+        }
+        
+     // UC11 for validatiing Train And Cargo codes
+        public void validateTrainAndCargoCodes() {
+
+            System.out.println("\n=== Train ID & Cargo Code Validation ===");
+
+            System.out.println("Enter Train ID:");
+            String trainId = sc.next();
+
+            System.out.println("Enter Cargo Code:");
+            String cargoCode = sc.next();
+
+            // Regex patterns
+            String trainRegex = "TRN-\\d{4}";
+            String cargoRegex = "PET-[A-Z]{2}";
+
+            Pattern trainPattern = Pattern.compile(trainRegex);
+            Pattern cargoPattern = Pattern.compile(cargoRegex);
+
+            Matcher trainMatcher = trainPattern.matcher(trainId);
+            Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+
+            if(trainMatcher.matches())
+                System.out.println("Train ID is VALID");
+            else
+                System.out.println("Train ID is INVALID");
+
+            if(cargoMatcher.matches())
+                System.out.println("Cargo Code is VALID");
+            else
+                System.out.println("Cargo Code is INVALID");
         }
     
 }
