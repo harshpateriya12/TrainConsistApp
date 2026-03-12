@@ -159,5 +159,23 @@ public class TrainConsistService {
 
             bogies.forEach(System.out::println);
         });
+        
     }
+     
+     // UC10 for counting total seats
+        public void countTotalSeats() {
+
+            if(bogieObjects.isEmpty()) {
+                System.out.println("No bogies available. Please add bogies first (UC7).");
+                return;
+            }
+
+            int totalSeats =
+                    bogieObjects.stream()
+                            .map(b -> b.getCapacity())
+                            .reduce(0, Integer::sum);
+
+            System.out.println("\nTotal Seating Capacity of Train: " + totalSeats);
+        }
+    
 }

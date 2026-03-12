@@ -26,6 +26,7 @@ public class Main {
             System.out.println("7. Sort Bogies by Capacity (UC7)");
             System.out.println("8. Filter Bogies using Streams (UC8)");
             System.out.println("9. Group Bogies by Type (UC9)");
+            System.out.println("10. Count Total Seats (UC10)");
             System.out.println("0. Exit");
 
             System.out.println("Enter your choice:");
@@ -67,6 +68,10 @@ public class Main {
 
                 case 9:
                     service.groupBogiesByType();
+                    break;
+                    
+                case 10:
+                    service.countTotalSeats();
                     break;
 
                 case 0:
