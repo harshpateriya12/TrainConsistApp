@@ -499,5 +499,43 @@ public class TrainConsistService {
             System.out.println("Bogie ID not found.");
         }
     }
+    
+ // UC20 – Exception Handling During Search Operations
+    public void safeSearchBogieID() {
+
+        try {
+
+            // Defensive state validation
+            if (bogies.isEmpty()) {
+                throw new IllegalStateException(
+                        "Search cannot be performed: No bogies exist in the train.");
+            }
+
+            System.out.println("\n***Safe Search Operation***");
+
+            System.out.println("Enter Bogie Name to search:");
+            String searchName = sc.nextLine();
+
+            boolean found = false;
+
+            for (Bogie b : bogies) {
+
+                if (b.getName().equalsIgnoreCase(searchName)) {
+                    System.out.println("Bogie Found: " + b);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("Bogie not found in train.");
+            }
+
+        }
+        catch (IllegalStateException e) {
+
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 
 }
