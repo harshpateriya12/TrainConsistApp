@@ -384,5 +384,31 @@ public class TrainConsistService {
 
         System.out.println();
     }
+    
+ // UC17 – Sort Bogie Names Using Arrays.sort()
+    public void sortBogieNamesUsingArrays() {
+
+        System.out.println("\n=== Sort Bogie Names (Arrays.sort) ===");
+
+        System.out.println("Enter number of bogie types:");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String[] bogieNames = new String[n];
+
+        System.out.println("Enter bogie type names:");
+
+        for(int i = 0; i < n; i++) {
+            bogieNames[i] = sc.nextLine();
+        }
+
+        // Built-in sorting
+        Arrays.sort(bogieNames);
+
+        // Display result
+        System.out.println("Sorted Bogie Names:");
+
+        System.out.println(Arrays.toString(bogieNames));
+    }
 
 }
