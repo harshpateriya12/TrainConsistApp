@@ -342,5 +342,47 @@ public class TrainConsistService {
             System.out.println("Cargo assignment process completed.");
         }
     }
+    
+ // UC16 – Bubble Sort for Passenger Bogie Capacities
+    public void bubbleSortBogies() {
+
+        System.out.println("\n***Bubble Sort: Passenger Bogie Capacities***");
+
+        System.out.println("Enter number of passenger bogies:");
+        int n = sc.nextInt();
+
+        int[] capacities = new int[n];
+
+        // Input capacities
+        System.out.println("Enter capacities:");
+
+        for(int i = 0; i < n; i++) {
+            capacities[i] = sc.nextInt();
+        }
+
+        // Bubble Sort Algorithm
+        for(int i = 0; i < n - 1; i++) {
+
+            for(int j = 0; j < n - i - 1; j++) {
+
+                if(capacities[j] > capacities[j + 1]) {
+
+                    // Swap values
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
+
+        // Display sorted result
+        System.out.println("\nSorted Capacities:");
+
+        for(int cap : capacities) {
+            System.out.print(cap + " ");
+        }
+
+        System.out.println();
+    }
 
 }

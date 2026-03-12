@@ -31,6 +31,7 @@ public class Main {
             System.out.println("12. Safety Compliance Check for Goods Bogies (UC12)");
             System.out.println("13. Performance Comparison (Loops vs Streams)");
             System.out.println("14. Safe Cargo Assignment (try-catch-finally)");
+            System.out.println("15. Sort Passenger Bogies (Bubble Sort)");
             System.out.println("0. Exit");
 
             System.out.println("Enter your choice:");
@@ -93,6 +94,12 @@ public class Main {
                 case 14:
                     service.safeCargoAssignment();
                     break;
+                    
+                case 15:
+                    service.bubbleSortBogies();
+                    break;
+                    
+               
 
                 case 0:
                     System.out.println("Choose a Valid option");
