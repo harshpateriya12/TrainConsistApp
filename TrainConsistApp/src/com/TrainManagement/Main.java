@@ -33,6 +33,7 @@ public class Main {
             System.out.println("14. Safe Cargo Assignment (try-catch-finally)");
             System.out.println("15. Sort Passenger Bogies (Bubble Sort)");
             System.out.println("16. Sort Bogie Names (Arrays.sort)");
+            System.out.println("17. Linear Search for Bogie ID");
             System.out.println("0. Exit");
 
             System.out.println("Enter your choice:");
@@ -102,6 +103,10 @@ public class Main {
                     
                 case 16:
                     service.sortBogieNamesUsingArrays();
+                    break;
+                    
+                case 17:
+                    service.linearSearchBogieID();
                     break;
                     
                

@@ -410,5 +410,44 @@ public class TrainConsistService {
 
         System.out.println(Arrays.toString(bogieNames));
     }
+    
+ // UC18 – Linear Search for Bogie ID
+    public void linearSearchBogieID() {
+
+        System.out.println("\n***Linear Search for Bogie ID***");
+
+        System.out.println("Enter number of bogie IDs:");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String[] bogieIDs = new String[n];
+
+        // Input bogie IDs
+        System.out.println("Enter bogie IDs:");
+
+        for(int i = 0; i < n; i++) {
+            bogieIDs[i] = sc.nextLine();
+        }
+
+        // Search key
+        System.out.println("Enter Bogie ID to search:");
+        String searchKey = sc.nextLine();
+
+        boolean found = false;
+
+        // Linear Search
+        for(int i = 0; i < n; i++) {
+
+            if(bogieIDs[i].equals(searchKey)) {
+                System.out.println("Bogie ID found at position: " + i);
+                found = true;
+                break;
+            }
+        }
+
+        if(!found) {
+            System.out.println("Bogie ID not found.");
+        }
+    }
 
 }
